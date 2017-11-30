@@ -34,3 +34,6 @@ by
 
 ### Tooling:
 [Phaser+ES6+Webpack](https://github.com/lean/phaser-es6-webpack)
+
+### Font: 
+[Amstrad CPC464 by Wesley Clarke](https://fonts2u.com/amstrad-cpc464-regular.font)

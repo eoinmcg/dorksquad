@@ -12161,13 +12161,14 @@ var _class = function (_BaseGame) {
         k2: this.game.input.keyboard.addKey(Phaser.Keyboard.TWO),
         k3: this.game.input.keyboard.addKey(Phaser.Keyboard.THREE),
         k4: this.game.input.keyboard.addKey(Phaser.Keyboard.FOUR),
+        k5: this.game.input.keyboard.addKey(Phaser.Keyboard.FIVE),
         esc: this.game.input.keyboard.addKey(Phaser.Keyboard.ESC)
       };
     }
   }, {
     key: 'text',
     value: function text() {
-      return '\n\n        CREDITS\n\n\n    1 CODE:\n      @eoinmcg\n\n    2 MUSIC:\n      ULTRASYSD\n\n    3 SFX:\n      SubspaceAudio\n\n    4 BUILT WITH\n      PHASERJS\n\n\n    [esc] to title\n    ';
+      return '\n\n        CREDITS\n\n\n    1 CODE:\n      @eoinmcg\n\n    2 MUSIC:\n      ULTRASYSD\n\n    3 SFX:\n      SubspaceAudio\n\n    4 BUILT WITH\n      PHASERJS\n\n    5 AMSTRAD FONT\n\n\n    [esc] to title\n    ';
     }
   }, {
     key: 'update',
@@ -12186,6 +12187,9 @@ var _class = function (_BaseGame) {
       }
       if (this.keys.k4.isDown) {
         window.open('https://phaser.io');
+      }
+      if (this.keys.k5.isDown) {
+        window.open('https://fonts2u.com/amstrad-cpc464-regular.font');
       }
     }
   }]);
