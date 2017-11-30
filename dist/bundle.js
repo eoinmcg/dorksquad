@@ -10905,8 +10905,8 @@ var _class = function (_Phaser$State) {
   }, {
     key: 'render',
     value: function render() {
-      // this.state.start('Loading')
-      this.state.start('Title');
+      this.state.start('Loading');
+      // this.state.start('Title')
     }
   }]);
 

@@ -33,7 +33,7 @@ export default class extends Phaser.State {
   }
 
   render () {
-    // this.state.start('Loading')
-    this.state.start('Title')
+    this.state.start('Loading')
+    // this.state.start('Title')
   }
 }
