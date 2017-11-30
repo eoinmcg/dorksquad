@@ -5,6 +5,8 @@ Entry for the [Github GameOff 2017](https://itch.io/jam/game-off-2017)
 
 by [@eoinmcg](https://twitter.com/eoinmcg)
 
+![Screenshot](https://raw.githubusercontent.com/eoinmcg/dorksquad/master/a/promo/title.png)
+
 The distant future. 
 The year 2000. 
 Robots have taken over. 
