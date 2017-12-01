@@ -13,11 +13,11 @@ export default class extends Phaser.State {
       { font: '16px Arial', fill: '#ff0', align: 'center' })
     text.anchor.setTo(0.5, 0.5)
 
-    let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-    link.type = 'image/x-icon';
-    link.rel = 'shortcut icon';
-    link.href = 'favicon.png';
-    document.getElementsByTagName('head')[0].appendChild(link);
+    let link = document.querySelector("link[rel*='icon']") || document.createElement('link')
+    link.type = 'image/x-icon'
+    link.rel = 'shortcut icon'
+    link.href = 'favicon.png'
+    document.getElementsByTagName('head')[0].appendChild(link)
 
     this.load.image('loaderBg', './a/i/loader-bg.png')
     this.load.image('loaderBar', './a/i/loader-bar.png')

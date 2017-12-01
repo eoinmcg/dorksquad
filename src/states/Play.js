@@ -36,9 +36,11 @@ export default class extends BaseGame {
     this.dude = this.addDude(0)
     this.p1Score = this.game.add.bitmapText(2, 2, 'cpc464', '00000', 8)
 
+    this.players = 1
     if (sessionStorage.getItem('players') === '2') {
       this.unicorn = this.addDude(1)
       this.p2Score = this.game.add.bitmapText(110, 2, 'cpc464', '00000', 8)
+      this.players = 2
     }
     sessionStorage.removeItem('players')
     this.kittens.add(new Kitten({ game: this.game, p: this }))
@@ -49,7 +51,7 @@ export default class extends BaseGame {
 
     this.game.time.events.add(Phaser.Timer.SECOND * 10, () => {
       this.spawnTime = this.spawnTime / 2
-    }, this);
+    }, this)
   }
 
   update () {
@@ -58,7 +60,7 @@ export default class extends BaseGame {
       this.tick = 0
     }
     this.bgOverlay.alpha = (Math.floor(this.tick / 20) % 2) ? 0 : 1
-    if (this.winner) {
+    if (this.players === 2 && this.winner) {
       this.winner.alpha = (Math.floor(this.tick / 40) % 2) ? 0 : 1
     }
 
@@ -119,13 +121,13 @@ export default class extends BaseGame {
       this.sfx.gameover.play()
       this.game.time.events.add(Phaser.Timer.SECOND * 10, () => {
         this.state.start('Title')
-      }, this);
+      }, this)
 
       this.game.add.tween(this.text)
         .to({y: this.game.world.height / 2}, 1000, Phaser.Easing.None)
         .start()
 
-      if (this.p2Score) {
+      if (this.players === 2) {
         this.winner = this.game.add.sprite(this.game.world.centerX, 300, 'text')
         this.winner.anchor.setTo(0.5, 0.5)
         this.winner.frame = this.dude.score > this.unicorn.score ? 6 : 7
@@ -143,7 +145,7 @@ export default class extends BaseGame {
   dudeHitKitten (dude, kitten) {
     kitten.kill()
     const type = (Math.random() > 0.5) ? 'bullet' : 'boot'
-    this.spawnPowerup (dude.position.x, dude.position.y, type)
+    this.spawnPowerup(dude.position.x, dude.position.y, type)
     dude.score += 50
     this.sfx.collect.play()
   }

@@ -21,7 +21,6 @@ export default class extends Phaser.Sprite {
   }
 
   update () {
-
     if (this.isShot) {
       if (this.position.x < 0) this.kill()
       return
@@ -37,7 +36,6 @@ export default class extends Phaser.Sprite {
       if (this.wait <= 0) {
         this.startMoving()
       }
-      return
     }
   }
 
