@@ -76,10 +76,6 @@ export default class extends Phaser.Sprite {
 
     let input = controls(this.keys, pad)
 
-    if (!this.visible && input.fire) {
-      this.p.state.start('Title')
-    }
-
     this.vx = input.vx * (this.speed + this.boost)
     this.vy = input.vy * (this.speed + this.boost)
 
@@ -92,6 +88,12 @@ export default class extends Phaser.Sprite {
       this.scale.x *= -1
     } else if (this.vx < 0 && this.scale.x > 0) {
       this.scale.x *= -1
+    }
+
+    if (this.p.gameOver && input.fire) {
+      if ((new Date().getTime() - this.p.gameOverTime) > 1000) {
+        this.p.state.start('Title')
+      }
     }
 
     if (this.visible && input.fire) {

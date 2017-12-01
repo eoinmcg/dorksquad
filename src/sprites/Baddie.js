@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import Data from '../data'
 
-import {randomDoor} from '../helpers'
+import {randomDoor, randomItem} from '../helpers'
 
 export default class extends Phaser.Sprite {
   constructor ({ game, p, type = false }) {
@@ -58,16 +58,15 @@ export default class extends Phaser.Sprite {
     }
     this.p.makeBoom(this.x, this.y)
     this.p.sfx.boom.play()
-    console.log(this.baddie.powerupFreq)
     if (Math.random() > this.baddie.powerupFreq) {
-      this.p.spawnPowerup(~~this.x, ~~this.y)
+      this.p.spawnPowerup(~~this.x, ~~this.y, randomItem(this.baddie.powerups))
     }
     this.kill()
   }
 
   update () {
     const pos = this.position
-    if (!this.dude || this.animations.currentAnim.name === 'kill') {
+    if (!this.dude || this.animations.currentAnim.name === 'kill' || this.p.gameOver) {
       this.body.velocity.setTo(0, 0)
       return
     }
@@ -80,15 +79,6 @@ export default class extends Phaser.Sprite {
     } else {
       if (this.scale.x > 0) this.scale.x *= -1
     }
-  }
-
-  randomPos (maxX, maxY) {
-    const points = [
-      [0, maxY / 2],
-      [maxX, maxY / 2],
-      [maxX / 2, 16]
-    ]
-    return points[Math.floor(Math.random() * points.length)]
   }
 
   getData (type) {

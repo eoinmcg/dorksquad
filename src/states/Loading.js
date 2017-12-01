@@ -1,9 +1,6 @@
 import Phaser from 'phaser'
 
 export default class extends Phaser.State {
-  init () {
-  }
-
   preload () {
     Phaser.Canvas.setSmoothingEnabled(this.game.context, false)
 
@@ -11,13 +8,6 @@ export default class extends Phaser.State {
 
     this.load.image('skull', 'a/i/skull.png')
     this.load.spritesheet('bg', 'a/i/bg.png', 160, 200)
-
-    const link = document.querySelector("link[rel*='icon']") ||
-      document.createElement('link')
-    link.type = 'image/x-icon'
-    link.rel = 'shortcut icon'
-    link.href = 'a/i/skull.png'
-    document.getElementsByTagName('head')[0].appendChild(link)
 
     const body = document.querySelector('body')
     body.style.position = 'fixed;'

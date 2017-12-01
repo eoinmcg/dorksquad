@@ -18,12 +18,13 @@ export default class extends BaseGame {
 
   text () {
     return `\n
-        CREDITS\n\n
-    1 CODE:\n      @eoinmcg\n
-    2 MUSIC:\n      ULTRASYSD\n
-    3 SFX:\n      SubspaceAudio\n
-    4 BUILT WITH\n      PHASERJS\n
-    5 AMSTRAD FONT\n\n
+    PLAYER 1:\n
+    CURSORS TO MOVE\n
+    SHIFT TO FIRE \n\n
+    PLAYER 2:\n
+    WASD TO MOVE\n
+    SHIFT TO FIRE \n\n\n
+    -OR USE JOYPADS- \n
     [esc] to title
     `
   }
@@ -31,21 +32,6 @@ export default class extends BaseGame {
   update () {
     if (this.keys.esc.isDown) {
       this.state.start('Title')
-    }
-    if (this.keys.k1.isDown) {
-      window.open('https://twitter.com/eoinmcg')
-    }
-    if (this.keys.k2.isDown) {
-      window.open('https://soundcloud.com/ultrasyd/1488-morons-amstrad-cpc')
-    }
-    if (this.keys.k3.isDown) {
-      window.open('https://opengameart.org/content/512-sound-effects-8-bit-style')
-    }
-    if (this.keys.k4.isDown) {
-      window.open('https://phaser.io')
-    }
-    if (this.keys.k5.isDown) {
-      window.open('https://fonts2u.com/amstrad-cpc464-regular.font')
     }
   }
 }

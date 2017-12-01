@@ -25,7 +25,10 @@ export default class extends Phaser.State {
       hit1: this.game.add.audio('hit1'),
       hit2: this.game.add.audio('hit2'),
       hit3: this.game.add.audio('hit3'),
-      boom: this.game.add.audio('boom')
+      boom: this.game.add.audio('boom'),
+      kittiedie: this.game.add.audio('kittiedie'),
+      gameover: this.game.add.audio('gameover'),
+      wavecomplete: this.game.add.audio('wavecomplete')
     }
   }
 

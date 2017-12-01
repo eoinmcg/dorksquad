@@ -10,13 +10,17 @@ export default class extends Phaser.State {
     this.load.spritesheet('text', 'a/i/text.png', 100, 10)
     this.tune = this.game.add.audio('titleMusic')
     Phaser.Canvas.setSmoothingEnabled(this.game.context, false)
+    this.game.input.gamepad.start()
   }
 
   create () {
     const world = this.game.world
+    this.startTime = new Date().getTime()
+    this.tune.play()
     this.tick = 0
     this.game.input.gamepad.start()
     this.pad = this.game.input.gamepad.pad1
+    this.pa2 = this.game.input.gamepad.pad2
     this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     this.logo = this.game.add.sprite(world.centerX, world.centerY - 50, 'logo')
     this.logo.anchor.setTo(0.5, 0.5)
@@ -34,14 +38,16 @@ export default class extends Phaser.State {
     this.credits = this.game.add.sprite(this.game.world.centerX, 140, 'text')
     this.credits.anchor.setTo(0.5, 0.5)
     this.credits.frame = 4
+    this.help = this.game.add.sprite(this.game.world.centerX, 150, 'text')
+    this.help.anchor.setTo(0.5, 0.5)
+    this.help.frame = 5
 
     this.keys = {
       k1: this.game.input.keyboard.addKey(Phaser.Keyboard.ONE),
       k2: this.game.input.keyboard.addKey(Phaser.Keyboard.TWO),
-      c: this.game.input.keyboard.addKey(Phaser.Keyboard.C)
+      c: this.game.input.keyboard.addKey(Phaser.Keyboard.C),
+      h: this.game.input.keyboard.addKey(Phaser.Keyboard.H)
     }
-
-    this.tune.play()
   }
 
   update () {
@@ -61,6 +67,10 @@ export default class extends Phaser.State {
     if (this.keys.k2.isDown) {
       this.startGame(2)
     }
+    if (this.keys.h.isDown) {
+      this.tune.stop()
+      this.state.start('Help')
+    }
 
     if (this.spaceKey.isDown || this.pad.justPressed(Phaser.Gamepad.XBOX360_A)) {
       this.startGame()
@@ -68,6 +78,9 @@ export default class extends Phaser.State {
   }
 
   startGame (players = 1) {
+    if (new Date().getTime() - this.startTime < 1000) {
+      return
+    }
     sessionStorage.setItem('players', players)
     this.tune.stop()
     this.state.start('Play')

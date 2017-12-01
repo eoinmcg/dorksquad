@@ -9,7 +9,10 @@ import {padZeros, outOfArena} from '../helpers'
 export default class extends BaseGame {
   init () {
     this.nextSpawn = 100
+    this.spawnTime = 100
     this.wave = 1
+    let plays = parseInt(sessionStorage.getItem('plays'), 10) || 0
+    sessionStorage.setItem('plays', plays)
   }
 
   create () {
@@ -43,20 +46,20 @@ export default class extends BaseGame {
       esc: this.game.input.keyboard.addKey(Phaser.Keyboard.ESC)
     }
     this.gameOver = false
+
+    this.game.time.events.add(Phaser.Timer.SECOND * 10, () => {
+      this.spawnTime = this.spawnTime / 2
+    }, this);
   }
 
   update () {
-
     this.tick += 1
     if (this.tick > 1000) {
       this.tick = 0
     }
     this.bgOverlay.alpha = (Math.floor(this.tick / 20) % 2) ? 0 : 1
-
-
-    if (this.keys.esc.isDown) {
-      this.game.paused = !this.game.paused
-      this.game.physics.arcade.isPaused = !this.game.physics.arcade.isPaused
+    if (this.winner) {
+      this.winner.alpha = (Math.floor(this.tick / 40) % 2) ? 0 : 1
     }
 
     this.bullets.forEachAlive((b) => {
@@ -65,6 +68,10 @@ export default class extends BaseGame {
         b.kill()
       }
     })
+
+    if (this.keys.esc.isDown) {
+      this.state.start('Title')
+    }
 
     this.nextSpawn -= 1
     if (this.nextSpawn < 0) {
@@ -107,10 +114,25 @@ export default class extends BaseGame {
       this.text = this.game.add.sprite(this.game.world.centerX, -50, 'text')
       this.text.anchor.setTo(0.5, 0.5)
       this.text.frame = 1
+      this.gameOver = true
+      this.gameOverTime = new Date().getTime()
+      this.sfx.gameover.play()
+      this.game.time.events.add(Phaser.Timer.SECOND * 10, () => {
+        this.state.start('Title')
+      }, this);
 
       this.game.add.tween(this.text)
         .to({y: this.game.world.height / 2}, 1000, Phaser.Easing.None)
         .start()
+
+      if (this.p2Score) {
+        this.winner = this.game.add.sprite(this.game.world.centerX, 300, 'text')
+        this.winner.anchor.setTo(0.5, 0.5)
+        this.winner.frame = this.dude.score > this.unicorn.score ? 6 : 7
+        this.game.add.tween(this.winner)
+          .to({y: this.game.world.height - 25}, 1000, Phaser.Easing.None)
+          .start()
+      }
     }
   }
 
@@ -120,6 +142,8 @@ export default class extends BaseGame {
 
   dudeHitKitten (dude, kitten) {
     kitten.kill()
+    const type = (Math.random() > 0.5) ? 'bullet' : 'boot'
+    this.spawnPowerup (dude.position.x, dude.position.y, type)
     dude.score += 50
     this.sfx.collect.play()
   }
@@ -127,7 +151,6 @@ export default class extends BaseGame {
   bulletHitBaddie (bullet, baddie) {
     baddie.receiveDamage(bullet)
     this.sfx.hit1.play()
-    // const dudesLeft = this.getDudes()
     bullet.kill()
     this.particleBurst(bullet.x, bullet.y)
   }
@@ -135,7 +158,7 @@ export default class extends BaseGame {
   bulletHitKitten (bullet, kitten) {
     bullet.kill()
     this.particleBurst(bullet.x, bullet.y)
-    kitten.kill()
+    kitten.getShot(bullet)
   }
 
   spawnBullet (x, y, vx, vy, owner) {
@@ -160,11 +183,16 @@ export default class extends BaseGame {
     bullet.body.velocity.y = vy * 200
   }
 
-  spawnBaddie (time = 100) {
-    this.nextSpawn = Math.floor(Math.random() * time)
+  spawnBaddie (time = this.spawnTime) {
+    if (this.spawnTime < 50) this.spawnTime = 50
+    this.nextSpawn = Math.floor(Math.random() * this.spawnTime) + this.spawnTime
     const dudes = this.getDudes()
-    if (dudes.length === 0) {
+    if (dudes.length === 0 || this.gameOver) {
       return
+    }
+
+    if (Math.random() > 0.8) {
+      this.kittens.add(new Kitten({ game: this.game, p: this }))
     }
 
     this.baddies.add(new Baddie({
@@ -174,13 +202,14 @@ export default class extends BaseGame {
     }))
   }
 
-  spawnPowerup (x, y) {
+  spawnPowerup (x, y, type) {
     if (outOfArena(x, y)) return
     this.powerups.add(new Powerup({
       game: this.game,
       p: this,
       x: x,
-      y: y
+      y: y,
+      type: type
     }))
   }
 

@@ -29,6 +29,17 @@ const randomDoor = () => {
   return points[Math.floor(Math.random() * points.length)]
 }
 
+const randomPos = () => {
+    return [
+      Math.floor(Math.random() * (156 - 12)) + 12,
+      Math.floor(Math.random() * (180 - 24)) + 24,
+    ]
+}
+
+const randomItem = (arr) => {
+  return arr[Math.floor(Math.random() * arr.length)]
+}
+
 const controls = (keys, pad) => {
   let vy = 0
   let vx = 0
@@ -67,5 +78,7 @@ export {
   padZeros,
   outOfArena,
   randomDoor,
+  randomPos,
+  randomItem,
   controls
 }

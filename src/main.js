@@ -8,6 +8,7 @@ import SplashState from './states/Splash'
 import TitleState from './states/Title'
 import PlayState from './states/Play'
 import CreditsState from './states/Credits'
+import HelpState from './states/Help'
 import IntroState from './states/Intro'
 // import PlayMapState from './states/PlayMap'
 
@@ -28,6 +29,7 @@ class Game extends Phaser.Game {
     this.state.add('Title', TitleState, false)
     this.state.add('Play', PlayState, false)
     this.state.add('Credits', CreditsState, false)
+    this.state.add('Help', HelpState, false)
     this.state.add('Intro', IntroState, false)
 
     this.state.start('Boot')
